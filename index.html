@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bakit Walang Magawa Ang Beshy Ko?</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.17/dist/sweetalert2.min.css">
+  <link rel="icon" href="https://em-content.zobj.net/thumbs/240/facebook/355/man-cartwheeling_1f938-200d-2642-fe0f.png" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, user-scalable=no">
+
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #F6F8FA;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .container {
+      width: 80%;
+      margin: 0 auto;
+      padding-top: 50px;
+      text-align: center;
+    }
+    
+    h1 {
+      color: #1A1A1A;
+      font-size: 30px;
+      margin-bottom: 40px;
+    }
+    
+    .input-section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    label {
+      color: #1A1A1A;
+      font-size: 20px;
+    }
+    
+    .input-container {
+      position: relative;
+    }
+    
+    input[type="text"] {
+      width: 400px;
+      height: 40px;
+      padding: 10px;
+      border: 1px solid #B0B7BE;
+      border-radius: 5px 0px 0px 5px;
+      font-size: 16px;
+      color: #1A1A1A;
+    }
+    
+    .copy-button {
+      background-color: #6C63FF;
+      border: none;
+      color: #FFFFFF;
+      font-size: 16px;
+      padding: 22px 30px;
+      border-radius: 0px 5px 5px 0px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .copy-button:hover {
+      background-color: #5750E0;
+    }
+    
+    .copy-button i {
+      position: relative;
+      z-index: 1;
+    }
+    
+    .copy-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.7);
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.copy-button:hover::before {
+  opacity: 1;
+}
+
+.copy-button::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 24px;
+  height: 24px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.copy-button.copied::after {
+  content: '\2713';
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+  color: #00ff00; /* Green color */
+}
+
+@keyframes checkmark {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+  70% {
+    transform: translate(-50%, -50%) scale(1.3);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+}
+
+    
+    .output-section {
+      text-align: center;
+    }
+    
+    h2 {
+      color: #1A1A1A;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    
+    #output-text {
+      color: #1A1A1A;
+      font-size: 16px;
+      white-space: pre-wrap;
+      display: inline-block;
+      text-align: left;
+    }
+    footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: #f9f9f9;
+      padding: 20px 0;
+      text-align: center;
+    }
+    
+    .social-links {
+      margin-top: 10px;
+    }
+    
+    /* Additional CSS for black social media icons */
+    .social-links a {
+      color: #000000; /* Black color */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Bakit Walang Magawa Ang Beshy Ko?</h1>
+    
+    <div class="input-section">
+      <div class="input-container">
+        <input type="text" id="input-text" placeholder="Type here..." oninput="addEmojis()">
+      </div>
+      <button class="copy-button" onclick="copyOutputText()"><i class="fas fa-copy"></i></button>
+    </div>
+    
+    <div class="output-section">
+      <p id="output-text"></p>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.17/dist/sweetalert2.all.min.js"></script>
+  <script>
+    function copyOutputText() {
+      var outputText = document.getElementById("output-text");
+      var range = document.createRange();
+      range.selectNode(outputText);
+      window.getSelection().removeAllRanges();
+      window.getSelection().addRange(range);
+      document.execCommand("copy");
+      window.getSelection().removeAllRanges();
+      
+      var copyButton = document.querySelector('.copy-button');
+      copyButton.classList.add('copied');
+      setTimeout(function() {
+        copyButton.classList.remove('copied');
+      }, 1000);
+      
+      Swal.fire({
+        icon: 'success',
+        title: 'Na I-Copy na Beshy!',
+        showConfirmButton: false,
+        timer: 1500
+      });
+    }
+    
+    function addEmojis() {
+      var inputText = document.getElementById("input-text").value;
+      var words = inputText.split(" ");
+      var output = "";
+      
+      for (var i = 0; i < words.length; i++) {
+        output += words[i] + " 🤸🏼‍♂️ ";
+      }
+      
+      document.getElementById("output-text").innerText = output.trim();
+    }
+  </script>
+  <footer>
+    <div class="container">
+      <p>Created by John Edward Bearneza</p>
+     
+        <!-- Add more social media links as needed -->
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
